@@ -1,13 +1,13 @@
-import BouncyDiv from "../animations/float";
+import PulsyDiv from "../animations/float";
 
 function Home() {
 	return (
 		<div className="d-flex flex-fill flex-column justify-content-center">
 			<div class="row w-100">
 				<div className="col-xs-6 col-sm-5 col-lg-4 mx-auto">
-					<BouncyDiv>
+					<PulsyDiv>
 						<img src="icon_lock.svg" alt="" className="w-100" />
-					</BouncyDiv>
+					</PulsyDiv>
 				</div>
 			</div>
 			<p className="fs-2 text-center mb-0">
