@@ -24,7 +24,6 @@ router.post("/register", async (req, res) => {
 		res.json({
 			success: true,
 			message: "Registration Successfull",
-			user,
 		});
 	} catch (err) {
 		console.log("Error:", err);
@@ -58,7 +57,7 @@ router.post("/login", async (req, res) => {
 				.status(404)
 				.json({ success: false, message: "Invalid email or password" });
 
-		res.json({ success: true, message: "Login Successfull", user });
+		res.json({ success: true, message: "Login Successfull" });
 	} catch (err) {}
 });
 
