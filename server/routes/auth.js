@@ -2,6 +2,7 @@ const express = require("express");
 
 const { models } = require("../sequelize/models");
 const { hashPassword, verifyPassword } = require("../utils/hash");
+const { createToken } = require("../utils/token");
 const { registerSchema, loginSchema } = require("../validations/auth");
 
 const router = express.Router();
@@ -21,9 +22,29 @@ router.post("/register", async (req, res) => {
 
 		const user = await models.User.create(value);
 
+		if (!user || !user.id) {
+			res.status(500).json({
+				success: false,
+				message: "Error while creating user.",
+			});
+		}
+
+		const payload = {
+			username: user.username,
+			email: user.email,
+			isVerified: false,
+		};
+		const token = createToken(payload);
+		if (!token)
+			return res.status(500).json({
+				success: false,
+				message: "Error while generating token",
+			});
+
 		res.json({
 			success: true,
-			message: "Registration Successfull",
+			message: "Registration Successful",
+			token,
 		});
 	} catch (err) {
 		console.log("Error:", err);
@@ -57,7 +78,19 @@ router.post("/login", async (req, res) => {
 				.status(404)
 				.json({ success: false, message: "Invalid email or password" });
 
-		res.json({ success: true, message: "Login Successfull" });
+		const payload = {
+			username: user.username,
+			email: user.email,
+			isVerified: false,
+		};
+		const token = createToken(payload);
+		if (!token)
+			return res.status(500).json({
+				success: false,
+				message: "Error while generating token",
+			});
+
+		res.json({ success: true, message: "Login Successful", token });
 	} catch (err) {}
 });
 

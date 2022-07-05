@@ -17,7 +17,6 @@ const verifyPassword = async (hash, password) => {
 	if (!hash) return;
 	try {
 		const check = await argon2.verify(hash, password);
-		console.log(check);
 		return check;
 	} catch (err) {
 		console.log("[ERROR] Hash verification error", err.message);

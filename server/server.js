@@ -2,8 +2,6 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 
-const apiRouter = require("./routes/api");
-
 const app = express();
 
 const ENVIRONMENT = app.settings.env;
@@ -17,6 +15,7 @@ if (ENVIRONMENT === "development") {
 const { init } = require("./sequelize");
 init();
 
+const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
 
 app.use(express.static(path.join(__dirname, "./../build")));
