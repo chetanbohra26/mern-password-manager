@@ -3,8 +3,8 @@ import PulsyDiv from "../animations/float";
 function Home() {
 	return (
 		<div className="d-flex flex-fill flex-column justify-content-center">
-			<div class="row w-100">
-				<div className="col-xs-6 col-sm-5 col-lg-4 mx-auto">
+			<div class="row vw-100">
+				<div className="col-xs-12 col-sm-6 col-lg-3 col-xl-2 mx-auto">
 					<PulsyDiv>
 						<img src="icon_lock.svg" alt="" className="w-100" />
 					</PulsyDiv>
