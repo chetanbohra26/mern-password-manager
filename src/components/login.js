@@ -1,13 +1,85 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import { loginRequest, registerRequest } from "../utils/apiHelper";
 
 const Login = () => {
-	const [isLogin, setLogin] = useState(true);
+	const [isLogin, setIsLogin] = useState(true);
+	const navigate = useNavigate();
+
+	const [register, setRegister] = useState({
+		username: "",
+		email: "",
+		pass: "",
+		cpass: "",
+	});
+
+	const [login, setLogin] = useState({
+		email: "",
+		pass: "",
+	});
+
+	const handleLoginChange = ({ currentTarget: input }) => {
+		const loginData = { ...login };
+		loginData[input.name] = input.value;
+		setLogin(loginData);
+	};
+
+	const handleRegisterChange = ({ currentTarget: input }) => {
+		const registerData = { ...register };
+		registerData[input.name] = input.value;
+		setRegister(registerData);
+	};
+
+	const handleLogin = async (e) => {
+		e.preventDefault();
+		const { email, pass } = login;
+		const data = await loginRequest(email, pass);
+		if (!data.success) {
+			return toast.error(data.message);
+		}
+
+		console.log("Success:", data);
+		if (data.token) {
+			toast.success(data.message);
+			localStorage.setItem("token", data.token);
+			goToDashboard();
+		} else {
+			toast.error("Unkown error while logging in");
+		}
+	};
+
+	const handleRegister = async (e) => {
+		e.preventDefault();
+		console.log("register");
+		const { username, email, pass, cpass } = register;
+		const data = await registerRequest(username, email, pass, cpass);
+
+		if (!data.success) {
+			return toast.error(data.message);
+		}
+
+		console.log("Success:", data);
+		if (data.token) {
+			toast.success(data.message);
+			localStorage.setItem("token", data.token);
+			goToDashboard();
+		} else {
+			toast.error("Unknown error while registering user");
+		}
+	};
+
+	const goToDashboard = () => {
+		navigate("/dashboard", { replace: true });
+	};
+
 	const getLoginUI = () => {
 		return (
 			<>
 				<div className="card-header h4 text-center">Login</div>
 				<div className="card-body">
-					<form action="">
+					<form onSubmit={handleLogin}>
 						<div className="form-group mb-3">
 							<label htmlFor="login-email" className="form-label">
 								Email
@@ -15,8 +87,12 @@ const Login = () => {
 							<input
 								type="email"
 								id="login-email"
+								name="email"
 								className="form-control"
 								placeholder="Enter registered email"
+								required
+								value={login.email}
+								onChange={handleLoginChange}
 							/>
 						</div>
 						<div className="mb-3">
@@ -29,8 +105,12 @@ const Login = () => {
 							<input
 								type="password"
 								id="login-password"
+								name="pass"
 								className="form-control"
 								placeholder="Enter password"
+								required
+								value={login.pass}
+								onChange={handleLoginChange}
 							/>
 						</div>
 						<div className="d-flex flex-column align-items-center">
@@ -41,7 +121,7 @@ const Login = () => {
 						<span>New User?</span>
 						<button
 							className="btn btn-link"
-							onClick={() => setLogin(false)}
+							onClick={() => setIsLogin(false)}
 						>
 							Register
 						</button>
@@ -56,7 +136,7 @@ const Login = () => {
 			<>
 				<div className="card-header h4 text-center">Register</div>
 				<div className="card-body">
-					<form action="">
+					<form onSubmit={handleRegister}>
 						<div className="form-group mb-3">
 							<label
 								htmlFor="register-username"
@@ -67,8 +147,12 @@ const Login = () => {
 							<input
 								type="text"
 								id="register-username"
+								name="username"
 								className="form-control"
 								placeholder="Pick username"
+								required
+								value={register.username}
+								onChange={handleRegisterChange}
 							/>
 						</div>
 						<div className="form-group mb-3">
@@ -81,8 +165,12 @@ const Login = () => {
 							<input
 								type="email"
 								id="register-email"
+								name="email"
 								className="form-control"
 								placeholder="Enter email"
+								required
+								value={register.email}
+								onChange={handleRegisterChange}
 							/>
 						</div>
 						<div className="mb-3">
@@ -95,8 +183,12 @@ const Login = () => {
 							<input
 								type="password"
 								id="register-password"
+								name="pass"
 								className="form-control"
 								placeholder="Enter password"
+								required
+								value={register.pass}
+								onChange={handleRegisterChange}
 							/>
 						</div>
 						<div className="mb-3">
@@ -109,8 +201,12 @@ const Login = () => {
 							<input
 								type="password"
 								id="register-cpassword"
+								name="cpass"
 								className="form-control"
 								placeholder="Confirm password"
+								required
+								value={register.cpass}
+								onChange={handleRegisterChange}
 							/>
 						</div>
 						<div className="d-flex flex-column align-items-center">
@@ -121,7 +217,7 @@ const Login = () => {
 						<span>Existing User?</span>
 						<button
 							className="btn btn-link"
-							onClick={() => setLogin(true)}
+							onClick={() => setIsLogin(true)}
 						>
 							Login
 						</button>

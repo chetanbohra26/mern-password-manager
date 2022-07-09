@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
 			token,
 		});
 	} catch (err) {
-		console.log("Error:", err);
+		console.log("[ERROR]", err.message);
 		if (err.errors && err.errors.length >= 0) {
 			return res
 				.status(400)
@@ -60,6 +60,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const { value, error } = loginSchema.validate(req.body);
+		if (error) throw error;
 
 		const user = await models.User.findOne({
 			where: {
@@ -91,7 +92,15 @@ router.post("/login", async (req, res) => {
 			});
 
 		res.json({ success: true, message: "Login Successful", token });
-	} catch (err) {}
+	} catch (err) {
+		console.log("[ERROR]", err.message);
+		if (err.errors && err.errors.length >= 0) {
+			return res
+				.status(400)
+				.json({ success: false, message: err.errors[0].message });
+		}
+		res.status(400).json({ success: false, message: err.message });
+	}
 });
 
 module.exports = router;
