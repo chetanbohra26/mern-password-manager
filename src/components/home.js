@@ -1,9 +1,9 @@
 import PulsyDiv from "../animations/float";
 
-function Home() {
+function Home(props) {
 	return (
 		<div className="d-flex flex-fill flex-column justify-content-center">
-			<div class="row vw-100">
+			<div className="row g-0">
 				<div className="col-xs-12 col-sm-6 col-lg-3 col-xl-2 mx-auto">
 					<PulsyDiv>
 						<img src="icon_lock.svg" alt="" className="w-100" />
