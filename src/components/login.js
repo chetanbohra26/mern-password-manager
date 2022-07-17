@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { addUser } from "../sliceReducers/user";
+import jwtDecode from "jwt-decode";
 
 import { loginRequest, registerRequest } from "../utils/apiHelper";
+import { setToken } from "../utils/tokenHelper";
 
 const Login = () => {
+	const userState = useSelector((state) => state.user);
+	const userDispatch = useDispatch();
+
 	const [isLogin, setIsLogin] = useState(true);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (userState.username !== "") {
+			navigate("/dashboard", { replace: true });
+		}
+	}, [navigate, userState.username]);
 
 	const [register, setRegister] = useState({
 		username: "",
@@ -40,11 +53,9 @@ const Login = () => {
 			return toast.error(data.message);
 		}
 
-		console.log("Success:", data);
 		if (data.token) {
 			toast.success(data.message);
-			localStorage.setItem("token", data.token);
-			goToDashboard();
+			initAndGoToDashboard(data.token);
 		} else {
 			toast.error("Unkown error while logging in");
 		}
@@ -52,7 +63,6 @@ const Login = () => {
 
 	const handleRegister = async (e) => {
 		e.preventDefault();
-		console.log("register");
 		const { username, email, pass, cpass } = register;
 		const data = await registerRequest(username, email, pass, cpass);
 
@@ -60,18 +70,32 @@ const Login = () => {
 			return toast.error(data.message);
 		}
 
-		console.log("Success:", data);
 		if (data.token) {
 			toast.success(data.message);
-			localStorage.setItem("token", data.token);
-			goToDashboard();
+			initAndGoToDashboard(data.token);
 		} else {
 			toast.error("Unknown error while registering user");
 		}
 	};
 
-	const goToDashboard = () => {
-		navigate("/dashboard", { replace: true });
+	const initAndGoToDashboard = (token) => {
+		try {
+			setToken(token);
+			const user = jwtDecode(token);
+
+			if (user) {
+				const payload = {
+					username: user.username,
+					email: user.email,
+					isVerified: user.isVerified,
+				};
+				console.log(payload);
+				userDispatch(addUser(payload));
+			}
+			navigate("/dashboard", { replace: true });
+		} catch (err) {
+			toast.error("Error while loading user data");
+		}
 	};
 
 	const getLoginUI = () => {
