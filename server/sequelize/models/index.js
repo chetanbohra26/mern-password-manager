@@ -1,4 +1,4 @@
-const modelSource = [require("./user")];
+const modelSource = [require("./user"), require("./website")];
 let models = {};
 const loadModels = async (sequelize) => {
 	await modelSource.forEach(async (model) => {

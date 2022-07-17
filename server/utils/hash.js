@@ -1,23 +1,21 @@
 const argon2 = require("argon2");
 
-const hashPassword = async (password) => {
+const hashPassword = (password) => {
 	if (!password) return;
 
 	try {
-		const hash = await argon2.hash(password, {
+		return argon2.hash(password, {
 			type: argon2.argon2id,
 		});
-		return hash;
 	} catch (err) {
 		console.log("[ERROR] Hashing error", err.message);
 	}
 };
 
-const verifyPassword = async (hash, password) => {
-	if (!hash) return;
+const verifyPassword = (hash, password) => {
+	if (!hash || !password) return;
 	try {
-		const check = await argon2.verify(hash, password);
-		return check;
+		return argon2.verify(hash, password);
 	} catch (err) {
 		console.log("[ERROR] Hash verification error", err.message);
 	}

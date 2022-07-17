@@ -4,10 +4,9 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET;
 const createToken = (payload) => {
 	if (!payload) return;
 	try {
-		const token = jwt.sign(payload, TOKEN_SECRET, {
-			expiresIn: "15m",
+		return jwt.sign(payload, TOKEN_SECRET, {
+			expiresIn: "30m",
 		});
-		return token;
 	} catch (err) {
 		console.log("[ERROR] Token generation error:", err.message);
 	}
@@ -16,8 +15,7 @@ const createToken = (payload) => {
 const verifyToken = (token) => {
 	if (!token) return;
 	try {
-		const payload = jwt.verify(token, TOKEN_SECRET);
-		return payload;
+		return jwt.verify(token, TOKEN_SECRET);
 	} catch (err) {
 		console.log("[ERROR] Token validation error:", err.message);
 	}

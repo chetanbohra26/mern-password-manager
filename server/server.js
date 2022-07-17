@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 const ENVIRONMENT = app.settings.env;
-console.log("[INFO] Environement:", ENVIRONMENT);
+console.log("[INFO] Environment:", ENVIRONMENT);
 
 if (ENVIRONMENT === "development") {
 	require("dotenv").config();
