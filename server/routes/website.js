@@ -123,10 +123,19 @@ router.post("/addSite", verifyUser, async (req, res) => {
 			password: encryptedPassword,
 		});
 
+		const site = {
+			id: website.id,
+			title: website.title,
+			email: website.email,
+			password: value.password,
+			updatedAt: website.updatedAt,
+			createdAt: website.createdAt,
+		};
+
 		res.json({
 			success: true,
 			message: "Data added successfully",
-			website,
+			site,
 		});
 	} catch (err) {
 		console.log("[ERROR]", err.message);
