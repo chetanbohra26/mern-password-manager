@@ -14,6 +14,10 @@ function App() {
 		<div className="vh-100 d-flex flex-column">
 			<Navbar />
 			<ToastContainer />
+
+			{/*div to fill up space to avoid content and navbar overlap*/}
+			<div className="p-4 mt-2"></div>
+
 			<div className="d-flex flex-fill flex-column container-fluid p-0">
 				<Routes>
 					<Route path="/" element={<Home />} />

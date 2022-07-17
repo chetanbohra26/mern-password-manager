@@ -1,7 +1,11 @@
 import axios from "axios";
+
 import { config } from "../config";
+import { getToken } from "../utils/tokenHelper";
 
 const handleError = ({ response }) => {
+	console.log("API error", response);
+	response.data.status = response.status;
 	return (
 		response?.data || { success: false, message: "Unable to get response" }
 	);
@@ -44,4 +48,20 @@ const registerRequest = (username, email, password, password2) => {
 	return httpCall(httpConf);
 };
 
-export { loginRequest, registerRequest };
+const getSitesRequest = (masterPassword) => {
+	const token = getToken();
+	const httpConf = {
+		method: "post",
+		url: `${config.apiURL}/sites/getSites`,
+		headers: {
+			token,
+		},
+		data: {
+			masterPassword,
+		},
+	};
+
+	return httpCall(httpConf);
+};
+
+export { loginRequest, registerRequest, getSitesRequest };

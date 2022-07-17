@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
@@ -49,9 +49,7 @@ const Login = () => {
 		e.preventDefault();
 		const { email, pass } = login;
 		const data = await loginRequest(email, pass);
-		if (!data.success) {
-			return toast.error(data.message);
-		}
+		if (!data.success) return toast.error(data.message);
 
 		if (data.token) {
 			toast.success(data.message);
@@ -66,9 +64,7 @@ const Login = () => {
 		const { username, email, pass, cpass } = register;
 		const data = await registerRequest(username, email, pass, cpass);
 
-		if (!data.success) {
-			return toast.error(data.message);
-		}
+		if (!data.success) return toast.error(data.message);
 
 		if (data.token) {
 			toast.success(data.message);

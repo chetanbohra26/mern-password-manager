@@ -10,7 +10,7 @@ const verifyUser = (req, res, next) => {
 	const decoded = verifyToken(token);
 	if (!decoded)
 		return res
-			.status(400)
+			.status(401)
 			.json({ success: false, message: "Invalid token" });
 	req.user = decoded;
 

@@ -14,16 +14,16 @@ function Navbar() {
 	};
 
 	const handleLogout = () => {
-		userDispatch(removeUser());
 		removeToken();
+		userDispatch(removeUser());
 		navigate("/login");
 		toast.success("Logged out successfully");
 	};
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<div className="container-fluid">
-				<NavLink className="navbar-brand" to="/">
+				<NavLink className="navbar-brand" to="/dashboard">
 					Password Manager Pro
 				</NavLink>
 
@@ -36,12 +36,17 @@ function Navbar() {
 							Login
 						</button>
 					) : (
-						<button
-							className="btn btn-outline-danger"
-							onClick={handleLogout}
-						>
-							Logout
-						</button>
+						<>
+							<span className="text-white h5 m-0 align-self-center me-2 d-none d-md-block">
+								Hi {userState.username}
+							</span>
+							<button
+								className="btn btn-outline-danger"
+								onClick={handleLogout}
+							>
+								Logout
+							</button>
+						</>
 					)}
 				</div>
 			</div>

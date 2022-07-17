@@ -25,4 +25,4 @@ const getPayload = () => {
 	}
 };
 
-export { setToken, removeToken, getPayload };
+export { getToken, setToken, removeToken, getPayload };
