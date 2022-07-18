@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-import Home from "./components/home";
-import Footer from "./components/footer";
-import Navbar from "./components/navbar";
-import Login from "./components/login";
-import Dashboard from "./components/dashboard";
+import Home from "./home";
+import Footer from "./footer";
+import Navbar from "./navbar";
+import Login from "./login";
+import Dashboard from "./dashboard";
 
 import "react-toastify/dist/ReactToastify.css";
 

@@ -16,7 +16,7 @@ function Navbar() {
 	const handleLogout = () => {
 		removeToken();
 		userDispatch(removeUser());
-		navigate("/login");
+		navigate("/login", { replace: true });
 		toast.success("Logged out successfully");
 	};
 

@@ -10,11 +10,9 @@ const Footer = () => {
 			<p className="m-0 p-0 bg-dark text-light fixed-bottom d-flex align-items-center justify-content-center">
 				Developed with ❤️ by Chetan Bohra{" "}
 				<button
-					className="btn btn-link text-decoration-none text-white p-0 ms-1"
+					className="btn btn-link text-decoration-none p-0 ms-1 btn-close btn-close-white"
 					onClick={() => setVisible(false)}
-				>
-					[X]
-				</button>
+				/>
 			</p>
 		</>
 	);
