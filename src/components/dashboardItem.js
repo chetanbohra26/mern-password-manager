@@ -8,7 +8,7 @@ const DashboardItem = ({ site }) => {
 			className="p-2 d-flex flex-column col-xs-12 col-lg-6 col-xxl-4"
 			key={site.id}
 		>
-			<div className="card">
+			<div className="card shadow">
 				<h4 className="card-header">{site.title}</h4>
 				<div className="card-body">
 					<div className="d-flex mb-1">

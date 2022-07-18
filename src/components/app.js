@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import Home from "./home";
-import Footer from "./footer";
 import Navbar from "./navbar";
 import Login from "./login";
 import Dashboard from "./dashboard";
@@ -26,8 +25,6 @@ function App() {
 					<Route path="*" element={<>not found</>} />
 				</Routes>
 			</div>
-
-			<Footer />
 		</div>
 	);
 }

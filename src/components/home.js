@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import PulsyDiv from "../animations/float";
 
 function Home(props) {
+	const navigate = useNavigate();
 	return (
 		<div className="d-flex flex-fill flex-column justify-content-center">
 			<div className="row g-0">
@@ -16,6 +18,14 @@ function Home(props) {
 			<p className="fs-4 text-center">
 				Your single store for all passwords
 			</p>
+			<div className="d-flex justify-content-center">
+				<button
+					className="btn btn-dark"
+					onClick={() => navigate("/login")}
+				>
+					Login
+				</button>
+			</div>
 		</div>
 	);
 }

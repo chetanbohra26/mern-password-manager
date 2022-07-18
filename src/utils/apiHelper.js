@@ -4,7 +4,6 @@ import { config } from "../config";
 import { getToken } from "../utils/tokenHelper";
 
 const handleError = ({ response }) => {
-	console.log("API error", response);
 	response.data.status = response.status;
 	return (
 		response?.data || { success: false, message: "Unable to get response" }

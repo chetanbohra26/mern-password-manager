@@ -20,6 +20,8 @@ function Navbar() {
 		toast.success("Logged out successfully");
 	};
 
+	if (userState.username === "") return;
+
 	return (
 		<nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<div className="container-fluid">

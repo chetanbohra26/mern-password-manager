@@ -14,6 +14,7 @@ const Dashboard = () => {
 	const userDispatch = useDispatch();
 	const [sites, setSites] = useState();
 	const [password, setPassword] = useState("");
+	const [filter, setFilter] = useState("");
 	const [isPassModalOpen, setPassModalOpen] = useState(true);
 	const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ const Dashboard = () => {
 				isOpen={isPassModalOpen}
 				onModelClose={() => setPassModalOpen(false)}
 			>
-				<div className="card">
+				<div className="card shadow">
 					<h3 className="card-header text-center">Check Password</h3>
 					<div className="card-body">
 						<input
@@ -66,37 +67,61 @@ const Dashboard = () => {
 							value={password}
 							onChange={({ target }) => setPassword(target.value)}
 						/>
-						<button
-							className="btn btn-dark"
-							onClick={handlePasswordSubmit}
-						>
-							Submit
-						</button>
+						<div className="d-flex justify-content-center">
+							<button
+								className="btn btn-dark"
+								onClick={handlePasswordSubmit}
+							>
+								Submit
+							</button>
+						</div>
 					</div>
 				</div>
 			</Modal>
-			<div className="d-flex flex-column flex-fill">
-				{sites ? (
-					sites.length !== 0 ? (
-						<>
-							<h2 className="px-2 pt-2 text-center">
-								Stored Passwords
-							</h2>
-							<div className="container">
-								<div className="row">
-									{sites.map((site) => (
+			{sites && (
+				<div className="container mt-2">
+					<div className="row">
+						<div className="col-xs-12 px-2 d-flex">
+							<input
+								type="text"
+								className="form-control"
+								placeholder="Filter"
+								value={filter}
+								onChange={({ target }) =>
+									setFilter(target.value)
+								}
+							/>
+							<button
+								className="btn btn-dark ms-2"
+								onClick={() => setFilter("")}
+							>
+								❌
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+			{sites && sites.length !== 0 ? (
+				<div className="container">
+					<div className="row">
+						{filter === ""
+							? sites.map((site) => (
+									<DashboardItem site={site} key={site.id} />
+							  ))
+							: sites
+									.filter((site) =>
+										site.title
+											.toLowerCase()
+											.includes(filter.toLowerCase())
+									)
+									.map((site) => (
 										<DashboardItem site={site} />
 									))}
-								</div>
-							</div>
-						</>
-					) : (
-						<div className="mx-auto my-auto">No data found</div>
-					)
-				) : (
-					<div className="mx-auto my-auto">Loading...</div>
-				)}
-			</div>
+					</div>
+				</div>
+			) : (
+				<div className="mx-auto my-auto">No data found</div>
+			)}
 		</>
 	);
 };

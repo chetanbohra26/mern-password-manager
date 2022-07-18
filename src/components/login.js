@@ -248,11 +248,14 @@ const Login = () => {
 	};
 
 	return (
-		<div className="d-flex flex-fill flex-column p-0 m-0">
+		<div className="d-flex flex-fill flex-column p-0 m-0 justify-content-center">
 			<div className="row g-0">
 				<div className="col-xs-12 col-md-8 col-lg-6 mx-auto mt-4">
 					<div className="card shadow mx-2 ">
 						{isLogin ? getLoginUI() : getRegisterUI()}
+					</div>
+					<div className="text-center mt-3">
+						Developed with ❤️ by Chetan Bohra
 					</div>
 				</div>
 			</div>
