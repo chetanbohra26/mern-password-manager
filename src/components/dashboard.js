@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { getSitesRequest } from "../utils/apiHelper";
+import { addSiteRequest, getSitesRequest } from "../utils/apiHelper";
 import { removeToken } from "../utils/tokenHelper";
 import { removeUser } from "../sliceReducers/user";
 import DashboardItem from "./dashboardItem";
@@ -16,6 +16,8 @@ const Dashboard = () => {
 	const [password, setPassword] = useState("");
 	const [filter, setFilter] = useState("");
 	const [isPassModalOpen, setPassModalOpen] = useState(true);
+	const [isAddSiteModalOpen, setAddSiteModelOpen] = useState(false);
+	const [site, setSite] = useState({ title: "", email: "", password: "" });
 	const navigate = useNavigate();
 
 	const loadSites = async () => {
@@ -40,6 +42,33 @@ const Dashboard = () => {
 		}
 	};
 
+	const handleSiteAdd = async (e) => {
+		e.preventDefault();
+		const data = await addSiteRequest(
+			site.title,
+			site.email,
+			site.password,
+			password
+		);
+
+		if (!data.success) {
+			if (data.status === 401) {
+				removeToken();
+				userDispatch(removeUser());
+				navigate("/login", { replace: true });
+			}
+			return toast.error(data.message);
+		}
+
+		const resultSite = data.site;
+		const newSites = [...sites];
+		newSites.push(resultSite);
+		setSites(newSites);
+		setSite({ title: "", email: "", password: "" });
+		toast.success(data.message);
+		setAddSiteModelOpen(false);
+	};
+
 	useEffect(() => {
 		if (userState.username === "") {
 			return navigate("/login", { replace: true });
@@ -51,12 +80,15 @@ const Dashboard = () => {
 		loadSites();
 	};
 
+	const handleSiteInput = ({ target: input }) => {
+		const newSite = { ...site };
+		newSite[input.name] = input.value;
+		setSite(newSite);
+	};
+
 	return (
 		<>
-			<Modal
-				isOpen={isPassModalOpen}
-				onModelClose={() => setPassModalOpen(false)}
-			>
+			<Modal isOpen={isPassModalOpen}>
 				<div className="card shadow">
 					<h3 className="card-header text-center">Check Password</h3>
 					<div className="card-body">
@@ -78,14 +110,87 @@ const Dashboard = () => {
 					</div>
 				</div>
 			</Modal>
+			<Modal
+				isOpen={isAddSiteModalOpen}
+				handleClose={() => setAddSiteModelOpen(false)}
+			>
+				<div className="card shadow">
+					<h3 className="card-header text-center">Add site</h3>
+					<div className="card-body">
+						<form onSubmit={handleSiteAdd}>
+							<div className="mb-2">
+								<label htmlFor="addsite-title">Title</label>
+								<input
+									id="addsite-title"
+									name="title"
+									type="text"
+									className="form-control"
+									placeholder="Enter title for site"
+									value={site.title}
+									onChange={handleSiteInput}
+								/>
+							</div>
+							<div className="mb-2">
+								<label htmlFor="addsite-email">Email</label>
+								<input
+									id="addsite-email"
+									name="email"
+									type="email"
+									className="form-control"
+									placeholder="Enter email to be used"
+									value={site.email}
+									onChange={handleSiteInput}
+								/>
+							</div>
+							<div className="mb-2">
+								<label htmlFor="addsite-password">
+									Password
+								</label>
+								<input
+									id="addsite-password"
+									name="password"
+									type="password"
+									className="form-control"
+									placeholder="Enter password"
+									value={site.password}
+									onChange={handleSiteInput}
+								/>
+							</div>
+							<div className="d-flex flex-column align-items-center mb-2">
+								<button className="btn btn-dark">Submit</button>
+							</div>
+						</form>
+						<div className="d-flex flex-column align-items-center">
+							<button
+								className="btn btn-danger mx-auto"
+								onClick={() => setAddSiteModelOpen(false)}
+							>
+								Cancel
+							</button>
+						</div>
+					</div>
+				</div>
+			</Modal>
 			{sites && (
 				<div className="container mt-2">
 					<div className="row">
 						<div className="col-xs-12 px-2 d-flex">
+							<div className="card flex-fill">
+								<button
+									className="btn btn-dark"
+									onClick={() => setAddSiteModelOpen(true)}
+								>
+									Add
+								</button>
+							</div>
+						</div>
+					</div>
+					<div className="row">
+						<div className="col-xs-12 px-2 d-flex mt-2">
 							<input
 								type="text"
 								className="form-control"
-								placeholder="Filter"
+								placeholder="Type to filter"
 								value={filter}
 								onChange={({ target }) =>
 									setFilter(target.value)
@@ -115,7 +220,10 @@ const Dashboard = () => {
 											.includes(filter.toLowerCase())
 									)
 									.map((site) => (
-										<DashboardItem site={site} />
+										<DashboardItem
+											site={site}
+											key={site.id}
+										/>
 									))}
 					</div>
 				</div>

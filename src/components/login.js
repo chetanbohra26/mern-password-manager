@@ -85,7 +85,6 @@ const Login = () => {
 					email: user.email,
 					isVerified: user.isVerified,
 				};
-				console.log(payload);
 				userDispatch(addUser(payload));
 			}
 			navigate("/dashboard", { replace: true });
@@ -250,8 +249,8 @@ const Login = () => {
 	return (
 		<div className="d-flex flex-fill flex-column p-0 m-0 justify-content-center">
 			<div className="row g-0">
-				<div className="col-xs-12 col-md-8 col-lg-6 mx-auto mt-4">
-					<div className="card shadow mx-2 ">
+				<div className="col-xs-12 col-md-8 col-lg-6 mx-auto">
+					<div className="card shadow mx-2">
 						{isLogin ? getLoginUI() : getRegisterUI()}
 					</div>
 					<div className="text-center mt-3">

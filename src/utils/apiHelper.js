@@ -63,4 +63,21 @@ const getSitesRequest = (masterPassword) => {
 	return httpCall(httpConf);
 };
 
-export { loginRequest, registerRequest, getSitesRequest };
+const addSiteRequest = (title, email, password, masterPassword) => {
+	const token = getToken();
+	const httpConf = {
+		method: "post",
+		url: `${config.apiURL}/sites/addSite`,
+		headers: { token },
+		data: {
+			title,
+			email,
+			password,
+			masterPassword,
+		},
+	};
+
+	return httpCall(httpConf);
+};
+
+export { loginRequest, registerRequest, getSitesRequest, addSiteRequest };
