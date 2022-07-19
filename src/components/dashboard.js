@@ -75,7 +75,8 @@ const Dashboard = () => {
 		}
 	}, [navigate, userState]);
 
-	const handlePasswordSubmit = () => {
+	const handlePasswordSubmit = (e) => {
+		e.preventDefault();
 		if (password.length === 0) return;
 		loadSites();
 	};
@@ -91,23 +92,22 @@ const Dashboard = () => {
 			<Modal isOpen={isPassModalOpen}>
 				<div className="card shadow">
 					<h3 className="card-header text-center">Check Password</h3>
-					<div className="card-body">
-						<input
-							type="password"
-							className="form-control mb-2"
-							placeholder="Enter password"
-							value={password}
-							onChange={({ target }) => setPassword(target.value)}
-						/>
-						<div className="d-flex justify-content-center">
-							<button
-								className="btn btn-dark"
-								onClick={handlePasswordSubmit}
-							>
-								Submit
-							</button>
+					<form onSubmit={handlePasswordSubmit}>
+						<div className="card-body">
+							<input
+								type="password"
+								className="form-control mb-2"
+								placeholder="Enter password"
+								value={password}
+								onChange={({ target }) =>
+									setPassword(target.value)
+								}
+							/>
+							<div className="d-flex justify-content-center">
+								<button className="btn btn-dark">Submit</button>
+							</div>
 						</div>
-					</div>
+					</form>
 				</div>
 			</Modal>
 			<Modal
