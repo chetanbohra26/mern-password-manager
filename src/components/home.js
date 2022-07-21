@@ -21,9 +21,9 @@ function Home(props) {
 			<div className="d-flex justify-content-center">
 				<button
 					className="btn btn-dark"
-					onClick={() => navigate("/login")}
+					onClick={() => navigate("/dashboard")}
 				>
-					Login
+					Get Started
 				</button>
 			</div>
 		</div>

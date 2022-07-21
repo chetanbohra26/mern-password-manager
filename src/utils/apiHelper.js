@@ -80,4 +80,21 @@ const addSiteRequest = (title, email, password, masterPassword) => {
 	return httpCall(httpConf);
 };
 
-export { loginRequest, registerRequest, getSitesRequest, addSiteRequest };
+const verifyTokenRequest = () => {
+	const token = getToken();
+	const httpConf = {
+		url: `${config.apiURL}/users/verifyToken`,
+		method: "get",
+		headers: { token },
+	};
+
+	return httpCall(httpConf);
+};
+
+export {
+	loginRequest,
+	registerRequest,
+	getSitesRequest,
+	addSiteRequest,
+	verifyTokenRequest,
+};

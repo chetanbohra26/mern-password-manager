@@ -20,6 +20,12 @@ const Dashboard = () => {
 	const [site, setSite] = useState({ title: "", email: "", password: "" });
 	const navigate = useNavigate();
 
+	useEffect(() => {
+		if (userState.username === "") {
+			return navigate("/login", { replace: true });
+		}
+	}, [navigate, userState.username]);
+
 	const loadSites = async () => {
 		const data = await getSitesRequest(password);
 		if (!data.success) {
@@ -68,12 +74,6 @@ const Dashboard = () => {
 		toast.success(data.message);
 		setAddSiteModelOpen(false);
 	};
-
-	useEffect(() => {
-		if (userState.username === "") {
-			return navigate("/login", { replace: true });
-		}
-	}, [navigate, userState]);
 
 	const handlePasswordSubmit = (e) => {
 		e.preventDefault();

@@ -1,8 +1,9 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
 import { removeToken } from "../utils/tokenHelper";
 import { removeUser } from "../sliceReducers/user";
-import { toast } from "react-toastify";
 
 function Navbar() {
 	const userState = useSelector((state) => state.user);
