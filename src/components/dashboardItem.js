@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import handleCopy from "../utils/copy";
+
 const DashboardItem = ({ site }) => {
 	const [isPassVisible, setPassVisible] = useState(false);
 
@@ -18,7 +20,12 @@ const DashboardItem = ({ site }) => {
 							className="form-control"
 							disabled
 						/>
-						<button className="btn btn-dark ms-1">📋</button>
+						<button
+							className="btn btn-dark ms-1"
+							onClick={() => handleCopy(site.email)}
+						>
+							📋
+						</button>
 					</div>
 					<div className="d-flex mb-1">
 						<input
@@ -33,7 +40,12 @@ const DashboardItem = ({ site }) => {
 						>
 							👁
 						</button>
-						<button className="btn btn-dark">📋</button>
+						<button
+							className="btn btn-dark"
+							onClick={() => handleCopy(site.password)}
+						>
+							📋
+						</button>
 					</div>
 				</div>
 			</div>
