@@ -1,16 +1,9 @@
 const { Sequelize } = require("sequelize");
+
+const { DB_CONFIG } = require("../config");
 const { loadModels } = require("./models");
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-	dialect: "postgres",
-	dialectOptions: {
-		ssl: {
-			rejectUnauthorized: false,
-			requestCert: true,
-		},
-	},
-	logging: undefined,
-});
+const sequelize = new Sequelize(process.env.DATABASE_URL, DB_CONFIG);
 
 const init = async () => {
 	try {
