@@ -72,7 +72,7 @@ router.post("/getSites", verifyUser, async (req, res) => {
 			sites,
 		});
 	} catch (err) {
-		console.log("[ERROR]", err.message);
+		console.error("[ERROR]", err.message);
 		res.status(400).json({ success: false, message: err.message });
 	}
 });
@@ -138,7 +138,7 @@ router.post("/addSite", verifyUser, async (req, res) => {
 			site,
 		});
 	} catch (err) {
-		console.log("[ERROR]", err.message);
+		console.error("[ERROR]", err.message);
 		res.status(400).json({ success: false, message: err.message });
 	}
 });

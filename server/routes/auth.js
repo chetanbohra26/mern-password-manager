@@ -47,7 +47,7 @@ router.post("/register", async (req, res) => {
 			token,
 		});
 	} catch (err) {
-		console.log("[ERROR]", err.message);
+		console.error("[ERROR]", err.message);
 		if (err.errors && err.errors.length >= 0) {
 			return res
 				.status(400)
@@ -93,7 +93,7 @@ router.post("/login", async (req, res) => {
 
 		res.json({ success: true, message: "Login Successful", token });
 	} catch (err) {
-		console.log("[ERROR]", err.message);
+		console.error("[ERROR]", err.message);
 		if (err.errors && err.errors.length >= 0) {
 			return res
 				.status(400)

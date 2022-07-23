@@ -9,9 +9,10 @@ const loadModels = async (sequelize) => {
 				console.log("[INFO] Loaded model:", Model.name);
 			})
 			.catch((err) =>
-				console.log(
+				console.error(
 					"[ERROR] Error loading model:",
-					Model ? Model.name : "unknown"
+					Model ? Model.name : "unknown",
+					err.message
 				)
 			);
 	});

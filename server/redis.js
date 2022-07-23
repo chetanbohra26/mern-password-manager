@@ -18,7 +18,7 @@ const redisInit = async () => {
 			process.exit(0);
 		});
 	} catch (err) {
-		console.log("[ERROR] Redis conenction error:", err.message);
+		console.error("[ERROR] Redis conenction error:", err.message);
 	}
 };
 
@@ -26,7 +26,7 @@ const setData = (key, value) => {
 	try {
 		return redis.set(key, value);
 	} catch (err) {
-		console.log("[ERROR] Redis set-key error:", err.message);
+		console.error("[ERROR] Redis set-key error:", err.message);
 	}
 };
 
@@ -34,7 +34,7 @@ const getData = async (key) => {
 	try {
 		return redis.get(key);
 	} catch (err) {
-		console.log("[ERROR] Redis get-key error:", err.message);
+		console.error("[ERROR] Redis get-key error:", err.message);
 	}
 };
 

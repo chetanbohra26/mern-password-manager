@@ -11,7 +11,7 @@ const createToken = (payload) => {
 			expiresIn: TOKEN.EXPIRY,
 		});
 	} catch (err) {
-		console.log("[ERROR] Token generation error:", err.message);
+		console.error("[ERROR] Token generation error:", err.message);
 	}
 };
 
@@ -20,7 +20,7 @@ const verifyToken = (token) => {
 	try {
 		return jwt.verify(token, TOKEN_SECRET);
 	} catch (err) {
-		console.log("[ERROR] Token validation error:", err.message);
+		console.error("[ERROR] Token validation error:", err.message);
 	}
 };
 

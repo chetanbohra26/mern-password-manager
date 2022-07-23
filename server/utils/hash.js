@@ -8,7 +8,7 @@ const hashPassword = (password) => {
 			type: argon2.argon2id,
 		});
 	} catch (err) {
-		console.log("[ERROR] Hashing error", err.message);
+		console.error("[ERROR] Hashing error", err.message);
 	}
 };
 
@@ -17,7 +17,7 @@ const verifyPassword = (hash, password) => {
 	try {
 		return argon2.verify(hash, password);
 	} catch (err) {
-		console.log("[ERROR] Hash verification error", err.message);
+		console.error("[ERROR] Hash verification error", err.message);
 	}
 };
 

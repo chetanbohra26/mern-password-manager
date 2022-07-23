@@ -21,7 +21,7 @@ const encryptPassword = (plainText, password) => {
 		].join(ENCRYPTION.KEY_SEPARATOR);
 		return result;
 	} catch (err) {
-		console.log("[ERROR] Encryption error", err.message);
+		console.error("[ERROR] Encryption error", err.message);
 	}
 };
 
@@ -43,7 +43,7 @@ const decryptPassword = (encryptedText, password) => {
 
 		return decrypted;
 	} catch (err) {
-		console.log("[ERROR] Decryption error", err.message);
+		console.error("[ERROR] Decryption error", err.message);
 	}
 };
 
