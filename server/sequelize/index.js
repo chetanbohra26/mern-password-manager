@@ -5,7 +5,7 @@ const { loadModels } = require("./models");
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, DB_CONFIG);
 
-const init = async () => {
+const dbInit = async () => {
 	try {
 		await sequelize.authenticate();
 		console.log("[OK] Connected to db");
@@ -16,5 +16,5 @@ const init = async () => {
 };
 
 module.exports.sequelize = sequelize;
-module.exports.init = init;
+module.exports.dbInit = dbInit;
 module.exports.models = sequelize.models;

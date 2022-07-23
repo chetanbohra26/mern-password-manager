@@ -9,6 +9,11 @@ const config = {
 		},
 		logging: undefined,
 	},
+	REDIS_CONFIG: {
+		tls: {
+			rejectUnauthorized: false,
+		},
+	},
 	ENCRYPTION: {
 		ALGORITHM: "aes-256-cbc",
 		SALT_BYTES: 32,

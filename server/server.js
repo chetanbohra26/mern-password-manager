@@ -12,8 +12,10 @@ if (ENVIRONMENT === "development") {
 	app.use(cors());
 }
 
-const { init } = require("./sequelize");
-init();
+const { dbInit } = require("./sequelize");
+const { redisInit } = require("./redis");
+dbInit();
+redisInit();
 
 const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);
