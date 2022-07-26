@@ -14,8 +14,10 @@ if (ENVIRONMENT === "development") {
 
 const { dbInit } = require("./sequelize");
 const { redisInit } = require("./redis");
+const { mailerInit } = require("./utils/mail");
 dbInit();
 redisInit();
+mailerInit();
 
 const apiRouter = require("./routes/api");
 app.use("/api", apiRouter);

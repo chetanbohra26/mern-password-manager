@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
 		const payload = {
 			username: user.username,
 			email: user.email,
-			isVerified: false,
+			isVerified: user.isVerified,
 		};
 		const token = createToken(payload);
 		if (!token)
@@ -82,7 +82,7 @@ router.post("/login", async (req, res) => {
 		const payload = {
 			username: user.username,
 			email: user.email,
-			isVerified: false,
+			isVerified: user.isVerified,
 		};
 		const token = createToken(payload);
 		if (!token)
