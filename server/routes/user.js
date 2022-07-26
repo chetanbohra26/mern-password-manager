@@ -44,7 +44,6 @@ router.get("/sendMailOTP", verifyUser, async (req, res) => {
 	res.json({
 		success: true,
 		message: "Kindly check inbox or spam for OTP",
-		otp,
 	});
 });
 
