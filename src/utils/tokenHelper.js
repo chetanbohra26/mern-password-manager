@@ -19,7 +19,7 @@ const getPayload = () => {
 	try {
 		return jwtDecode(token);
 	} catch (err) {
-		console.log("Invalid token stored");
+		console.error("Invalid token stored");
 		removeToken();
 		return;
 	}

@@ -23,8 +23,10 @@ const Dashboard = () => {
 	useEffect(() => {
 		if (userState.username === "") {
 			return navigate("/login", { replace: true });
+		} else if (!userState.isVerified) {
+			return navigate("/verify", { replace: true });
 		}
-	}, [navigate, userState.username]);
+	}, [navigate, userState.username, userState.isVerified]);
 
 	const loadSites = async () => {
 		const data = await getSitesRequest(password);
@@ -86,6 +88,8 @@ const Dashboard = () => {
 		newSite[input.name] = input.value;
 		setSite(newSite);
 	};
+
+	if (userState.username === "" || !userState.isVerified) return;
 
 	return (
 		<>

@@ -17,9 +17,11 @@ const Login = () => {
 
 	useEffect(() => {
 		if (userState.username !== "") {
+			if (!userState.isVerified)
+				return navigate("/verify", { replace: true });
 			navigate("/dashboard", { replace: true });
 		}
-	}, [navigate, userState.username]);
+	}, [navigate, userState.username, userState.isVerified]);
 
 	const [register, setRegister] = useState({
 		username: "",

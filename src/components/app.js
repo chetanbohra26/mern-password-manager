@@ -12,6 +12,7 @@ import Login from "./login";
 import Dashboard from "./dashboard";
 
 import "react-toastify/dist/ReactToastify.css";
+import VerifyUser from "./verifyUser";
 
 function App() {
 	const userState = useSelector((state) => state.user);
@@ -43,6 +44,7 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/login" element={<Login />} />
+					<Route path="/verify" element={<VerifyUser />} />
 					<Route path="*" element={<>not found</>} />
 				</Routes>
 			</div>

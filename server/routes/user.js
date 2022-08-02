@@ -36,7 +36,6 @@ router.get("/sendMailOTP", verifyUser, async (req, res) => {
 		"Password Pro: Confirm OTP",
 		`The OTP for email verification: ${otp}`
 	);
-	console.log(requestId);
 	if (!requestId) {
 		console.warn("[Error] Email not sent possibly");
 	}

@@ -91,10 +91,38 @@ const verifyTokenRequest = () => {
 	return httpCall(httpConf);
 };
 
+const sendMailOTPRequest = () => {
+	const token = getToken();
+	const httpConf = {
+		url: `${config.apiURL}/users/sendMailOTP`,
+		method: "get",
+		headers: { token },
+	};
+
+	return httpCall(httpConf);
+};
+
+const confirmOTPRequest = (otp) => {
+	const token = getToken();
+
+	const httpConf = {
+		url: `${config.apiURL}/users/confirmOTP`,
+		method: "post",
+		headers: { token },
+		data: {
+			otp,
+		},
+	};
+
+	return httpCall(httpConf);
+};
+
 export {
 	loginRequest,
 	registerRequest,
 	getSitesRequest,
 	addSiteRequest,
 	verifyTokenRequest,
+	sendMailOTPRequest,
+	confirmOTPRequest,
 };
