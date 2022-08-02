@@ -30,7 +30,7 @@ const setData = (key, value) => {
 	}
 };
 
-const getData = async (key) => {
+const getData = (key) => {
 	try {
 		return redis.get(key);
 	} catch (err) {
@@ -38,6 +38,15 @@ const getData = async (key) => {
 	}
 };
 
+const removeData = (key) => {
+	try {
+		return redis.del(key);
+	} catch (err) {
+		console.error("[ERROR] Redis delete-key error:", err.message);
+	}
+};
+
 module.exports.redisInit = redisInit;
 module.exports.getData = getData;
 module.exports.setData = setData;
+module.exports.removeData = removeData;

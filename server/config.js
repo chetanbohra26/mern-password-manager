@@ -23,6 +23,10 @@ const config = {
 	TOKEN: {
 		EXPIRY: "30m",
 	},
+	OTP_CONFIG: {
+		EXPIRY: 10 * 60 * 1000,
+		LENGTH: 6,
+	},
 };
 
 module.exports = config;
