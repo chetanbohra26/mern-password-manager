@@ -13,11 +13,12 @@ router.post("/register", async (req, res) => {
 		if (error) throw error;
 
 		const hash = await hashPassword(value.password);
-		if (!hash)
+		if (!hash) {
 			return res.status(500).json({
 				success: false,
 				message: "Error when registering user",
 			});
+		}
 		value.password = hash;
 
 		const user = await models.User.create(value);
@@ -35,11 +36,12 @@ router.post("/register", async (req, res) => {
 			isVerified: user.isVerified,
 		};
 		const token = createToken(payload);
-		if (!token)
+		if (!token) {
 			return res.status(500).json({
 				success: false,
 				message: "Error while generating token",
 			});
+		}
 
 		res.json({
 			success: true,
@@ -68,16 +70,18 @@ router.post("/login", async (req, res) => {
 			},
 		});
 
-		if (!user)
+		if (!user) {
 			return res
 				.status(404)
 				.json({ success: false, message: "Invalid email or password" });
+		}
 
 		const validPass = await verifyPassword(user.password, value.password);
-		if (!validPass)
+		if (!validPass) {
 			return res
 				.status(404)
 				.json({ success: false, message: "Invalid email or password" });
+		}
 
 		const payload = {
 			username: user.username,
@@ -85,11 +89,12 @@ router.post("/login", async (req, res) => {
 			isVerified: user.isVerified,
 		};
 		const token = createToken(payload);
-		if (!token)
+		if (!token) {
 			return res.status(500).json({
 				success: false,
 				message: "Error while generating token",
 			});
+		}
 
 		res.json({ success: true, message: "Login Successful", token });
 	} catch (err) {
