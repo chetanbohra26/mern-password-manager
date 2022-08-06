@@ -17,6 +17,12 @@ router.get("/verifyToken", verifyUser, (req, res) => {
 });
 
 router.get("/sendMailOTP", verifyUser, async (req, res) => {
+	if (req.user.isVerified === true) {
+		return res.status(403).json({
+			success: false,
+			message: "User is already verified",
+		});
+	}
 	const otp = generateOTP();
 	if (!otp) {
 		return res

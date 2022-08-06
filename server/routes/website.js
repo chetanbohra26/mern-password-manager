@@ -102,10 +102,18 @@ router.post("/addSite", verifyUser, async (req, res) => {
 				email: req.user.email,
 			},
 		});
-		if (!user)
+		if (!user) {
 			return res
 				.status(404)
 				.json({ success: false, message: "User not found" });
+		}
+
+		if (!user.isVerified) {
+			return res.status(403).json({
+				success: false,
+				message: "User is not verified",
+			});
+		}
 
 		const isPassValid = await verifyPassword(
 			user.password,
@@ -140,8 +148,6 @@ router.post("/addSite", verifyUser, async (req, res) => {
 			title: website.title,
 			email: website.email,
 			password: value.password,
-			updatedAt: website.updatedAt,
-			createdAt: website.createdAt,
 		};
 
 		res.json({
@@ -217,9 +223,17 @@ router.put("/updateSite/:siteId", verifyUser, async (req, res) => {
 			});
 		}
 
+		const result = {
+			id: req.params.siteId,
+			title: payload.title,
+			email: payload.email,
+			password: value.password,
+		};
+
 		res.json({
 			success: true,
 			message: "Record updated",
+			result,
 		});
 	} catch (err) {
 		console.error("[ERROR]", err.message);
@@ -227,11 +241,12 @@ router.put("/updateSite/:siteId", verifyUser, async (req, res) => {
 	}
 });
 
-router.delete("/removeSite/:siteId", verifyUser, (req, res) => {
+router.delete("/removeSite/:siteId", verifyUser, async (req, res) => {
 	try {
 		if (!req.user || !req.user.email) {
 			return res
-				.status(401).json({ success: false, message: "User not loaded properly" });
+				.status(401)
+				.json({ success: false, message: "User not loaded properly" });
 		}
 
 		const user = await models.User.findOne({
@@ -246,21 +261,24 @@ router.delete("/removeSite/:siteId", verifyUser, (req, res) => {
 				.json({ success: false, message: "User not found" });
 		}
 
-		const [count] =  models.Website.destroy({
+		const count = await models.Website.destroy({
 			where: {
 				userId: user.id,
-				id: req.params.id
-			}
+				id: req.params.siteId,
+			},
 		});
 
 		if (count === 0) {
-			return res.status(404).json({ success: false, message: "Error while deleting item" });
+			return res
+				.status(404)
+				.json({ success: false, message: "Error while deleting item" });
 		}
 
+		res.json({ success: true, message: "Item deleted successfully" });
 	} catch (err) {
 		console.error("[ERROR]", err.message);
 		res.status(400).json({ success: false, message: err.message });
 	}
-})
+});
 
 module.exports = router;
