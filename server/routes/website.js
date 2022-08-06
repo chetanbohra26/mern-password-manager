@@ -227,4 +227,40 @@ router.put("/updateSite/:siteId", verifyUser, async (req, res) => {
 	}
 });
 
+router.delete("/removeSite/:siteId", verifyUser, (req, res) => {
+	try {
+		if (!req.user || !req.user.email) {
+			return res
+				.status(401).json({ success: false, message: "User not loaded properly" });
+		}
+
+		const user = await models.User.findOne({
+			where: {
+				email: req.user.email,
+			},
+		});
+
+		if (!user) {
+			return res
+				.status(404)
+				.json({ success: false, message: "User not found" });
+		}
+
+		const [count] =  models.Website.destroy({
+			where: {
+				userId: user.id,
+				id: req.params.id
+			}
+		});
+
+		if (count === 0) {
+			return res.status(404).json({ success: false, message: "Error while deleting item" });
+		}
+
+	} catch (err) {
+		console.error("[ERROR]", err.message);
+		res.status(400).json({ success: false, message: err.message });
+	}
+})
+
 module.exports = router;
