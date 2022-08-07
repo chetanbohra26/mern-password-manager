@@ -156,16 +156,16 @@ const DashboardItem = ({ site, onSiteUpdate, onSiteDelete }) => {
 							{site.title}
 						</div>
 						<button
-							className="btn btn-dark mx-1"
+							className="btn btn-link text-decoration-none px-1"
 							onClick={openEditItemModal}
 						>
 							✏️
 						</button>
 						<button
-							className="btn btn-danger fw-bold"
+							className="btn btn-link text-decoration-none px-1"
 							onClick={() => setDeleteModalOpen(true)}
 						>
-							X
+							❌
 						</button>
 					</div>
 					<div className="card-body">
