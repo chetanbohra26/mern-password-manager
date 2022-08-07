@@ -28,7 +28,10 @@ function Navbar() {
 			<nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 				<div className="container-fluid">
 					<NavLink className="navbar-brand" to="/dashboard">
-						Password Manager Pro
+						<span className="d-none d-sm-block">
+							Password Manager Pro
+						</span>
+						<span className="d-sm-none">Pwd Pro</span>
 					</NavLink>
 
 					<div className="d-flex">
