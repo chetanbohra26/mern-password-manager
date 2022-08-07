@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# Introduction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The project is built using the following technologies:
+
+1. React
+2. Express.js (Node.js)
+3. Bootstrap 5
+4. Sequelize v6
+5. Postgresql (Free tier)
+6. Courier (A service to send mails via Node.js) (Free tier)
+7. Redis (Free tier)
+
+The application is deployed on Heroku: [https://pwd-pro.herokuapp.com](https://pwd-pro.herokuapp.com)
+
+While working with the project, I came across a few challenges:
+
+1. Sequelize is slower to use than native DB at the cost of convenience of not writing queries.
+2. Sequelize takes a few seconds to initialize/sync models. This is problematic during development as I wait for models to load for testing even tiny endpoint changes.
+3. Sequelize is an ORM that aims to provide convenience to use any database interchangeably. However, in some scenarios similar behavior is not displayed. For eg: if a record is updated, Postgresql returns the updated record while Sql doesn't. Similarly, when creating a record with Sequelize, Postgresql returns the created user id while Sql doesn't. If a user is aware of the DB syntaxes, there is not much benefit from using Sequelize.
+4. Bootstrap sites tend to look similar due to similar classes being used.
 
 ## Available Scripts
 
@@ -8,63 +25,24 @@ In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the express server which provides endpoints and PROD UI\
+Open [http://localhost:7500](http://localhost:7500) to view it in your browser.
+The server will not reload when making changes.
 
 ### `npm run build`
 
-Builds the app for production to the `build` folder.\
+Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
+The build is minified and the filenames include the hashes.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### `num run start-watch`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs the express server in development mode and PROD UI
+Open [http://localhost:7500](http://localhost:7500) to view it in your browser.
+The server will reload when making changes.
 
-### `npm run eject`
+### `num run serve`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Runs the React development server in development mode
+Open [http://localhost:3000](http://localhost:7500) to view it in your browser.
+The server will reload when making changes.
