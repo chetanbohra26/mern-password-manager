@@ -144,10 +144,7 @@ const Dashboard = () => {
 					</form>
 				</div>
 			</Modal>
-			<Modal
-				isOpen={isAddSiteModalOpen}
-				handleClose={() => setAddSiteModelOpen(false)}
-			>
+			<Modal isOpen={isAddSiteModalOpen}>
 				<div className="card shadow">
 					<h3 className="card-header text-center">Add site</h3>
 					<div className="card-body">

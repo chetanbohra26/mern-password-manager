@@ -12,9 +12,9 @@ const mailerInit = () => {
 	}
 };
 
-const sendMail = (email, title, body) => {
+const sendMail = async (email, title, body) => {
 	try {
-		return courier.send({
+		const result = await courier.send({
 			message: {
 				to: {
 					email,
@@ -25,6 +25,7 @@ const sendMail = (email, title, body) => {
 				},
 			},
 		});
+		return result;
 	} catch (err) {
 		console.log("[ERROR] Error while sending mail:", err.message);
 	}

@@ -11,14 +11,15 @@ const generateOTP = () => {
 	}
 };
 
-const saveOTP = (otp, userName) => {
+const saveOTP = async (otp, userName) => {
 	try {
 		const key = getOTPKey(userName);
 		const payload = {
 			otp,
 			ttl: Date.now() + OTP_CONFIG.EXPIRY,
 		};
-		return setData(key, JSON.stringify(payload));
+		const response = await setData(key, JSON.stringify(payload));
+		return response;
 	} catch (err) {
 		console.error("[ERROR] OTP Generation error", err.message);
 	}
