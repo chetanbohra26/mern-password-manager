@@ -80,6 +80,29 @@ const addSiteRequest = (title, email, password, masterPassword) => {
 	return httpCall(httpConf);
 };
 
+const modifySiteRequest = (site) => {
+	const token = getToken();
+	const httpConf = {
+		url: `${config.apiURL}/sites/updateSite/${site.id}`,
+		method: "put",
+		headers: { token },
+		data: site,
+	};
+
+	return httpCall(httpConf);
+};
+
+const removeSiteRequest = (siteId) => {
+	const token = getToken();
+	const httpConf = {
+		url: `${config.apiURL}/sites/removeSite/${siteId}`,
+		method: "delete",
+		headers: { token },
+	};
+
+	return httpCall(httpConf);
+};
+
 const verifyTokenRequest = () => {
 	const token = getToken();
 	const httpConf = {
@@ -122,6 +145,8 @@ export {
 	registerRequest,
 	getSitesRequest,
 	addSiteRequest,
+	modifySiteRequest,
+	removeSiteRequest,
 	verifyTokenRequest,
 	sendMailOTPRequest,
 	confirmOTPRequest,
