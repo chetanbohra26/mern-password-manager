@@ -3,7 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { addSiteRequest, getSitesRequest } from "../utils/apiHelper";
+import {
+	addSiteRequest,
+	getSitesRequest,
+	modifySiteRequest,
+	removeSiteRequest,
+} from "../utils/apiHelper";
 import { removeToken } from "../utils/tokenHelper";
 import { removeUser } from "../sliceReducers/user";
 import DashboardItem from "./dashboardItem";
@@ -87,6 +92,31 @@ const Dashboard = () => {
 		const newSite = { ...site };
 		newSite[input.name] = input.value;
 		setSite(newSite);
+	};
+
+	const handleSiteUpdate = async (site) => {
+		if (!site) return;
+		site.masterPassword = password;
+		const data = await modifySiteRequest(site);
+		if (data && data.success && data.result) {
+			const items = [...sites];
+			const index = items.findIndex((item) => item.id === site.id);
+			console.log(index);
+			if (index >= 0) {
+				items[index] = data.result;
+				setSites(items);
+			}
+		}
+		return data;
+	};
+
+	const handleSiteDelete = async (siteId) => {
+		if (!siteId) return;
+		const data = await removeSiteRequest(siteId);
+		if (data && data.success) {
+			setSites(sites.filter((site) => site.id !== siteId));
+		}
+		return data;
 	};
 
 	if (userState.username === "" || !userState.isVerified) return;
@@ -215,7 +245,12 @@ const Dashboard = () => {
 					<div className="row">
 						{filter === ""
 							? sites.map((site) => (
-									<DashboardItem site={site} key={site.id} />
+									<DashboardItem
+										site={site}
+										key={site.id}
+										onSiteUpdate={handleSiteUpdate}
+										onSiteDelete={handleSiteDelete}
+									/>
 							  ))
 							: sites
 									.filter((site) =>
@@ -227,6 +262,8 @@ const Dashboard = () => {
 										<DashboardItem
 											site={site}
 											key={site.id}
+											onSiteUpdate={handleSiteUpdate}
+											onSiteDelete={handleSiteDelete}
 										/>
 									))}
 					</div>
