@@ -164,6 +164,7 @@ router.post("/addSite", verifyUser, async (req, res) => {
 router.put("/updateSite/:siteId", verifyUser, async (req, res) => {
 	try {
 		const { value, error } = updateSiteSchema.validate(req.body);
+		if (error) throw error;
 
 		if (!req.user || !req.user.email)
 			return res

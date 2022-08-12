@@ -24,8 +24,8 @@ const DashboardItem = ({ site, onSiteUpdate, onSiteDelete }) => {
 	const handleItemEditSubmit = async (e) => {
 		e.preventDefault();
 		const result = await onSiteUpdate(updatedSite);
-		if (!result || !result.success) {
-			return toast.error("Error while updating item");
+		if (!result.success) {
+			return toast.error(result.message || "Error while updating item");
 		}
 		toast.success(result.message);
 		setEditModalOpen(false);
@@ -33,8 +33,8 @@ const DashboardItem = ({ site, onSiteUpdate, onSiteDelete }) => {
 
 	const handleItemDeleteSubmit = async () => {
 		const result = await onSiteDelete(site.id);
-		if (!result || !result.success) {
-			return toast.error("Error while deleting item");
+		if (!result.success) {
+			return toast.error(result.message || "Error while deleting item");
 		}
 		toast.success(result.message);
 		setDeleteModalOpen(false);

@@ -27,6 +27,9 @@ const addSiteSchema = Joi.object({
 });
 
 const updateSiteSchema = Joi.object({
+	id: Joi.string()
+		.optional()
+		.error(() => new Error("Invalid id")),
 	title: Joi.string()
 		.required()
 		.trim()
@@ -44,6 +47,8 @@ const updateSiteSchema = Joi.object({
 	masterPassword: Joi.string()
 		.required()
 		.error(() => new Error("Invalid master password")),
+	createdAt: Joi.date().optional(() => new Error("Invalid createdAt")),
+	updatedAt: Joi.date().optional(() => new Error("Invalid updatedAt")),
 });
 
 module.exports.getSiteSchema = getSiteSchema;
