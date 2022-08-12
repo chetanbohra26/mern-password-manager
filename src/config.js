@@ -1,4 +1,6 @@
-const commonConfig = {};
+const commonConfig = {
+	HTTP_REQ_TIMEOUT: 10 * 1000,
+};
 
 const prodConfig = {
 	apiURL: "/api",

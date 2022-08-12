@@ -3,15 +3,24 @@ import axios from "axios";
 import { config } from "../config";
 import { getToken } from "../utils/tokenHelper";
 
-const handleError = ({ response }) => {
-	response.data.status = response.status;
+const handleError = ({ response = {} }) => {
+	if (response.data) {
+		response.data.status = response.status;
+	}
 	return (
 		response?.data || { success: false, message: "Unable to get response" }
 	);
 };
 
 const httpCall = async (httpConfig) => {
+	if (!httpConfig.headers) {
+		httpConfig.headers = {};
+	}
+	if (!httpConfig.headers.timeout) {
+		httpConfig.headers.timeout = config.HTTP_REQ_TIMEOUT;
+	}
 	try {
+		console.log(httpConfig);
 		const response = await axios(httpConfig);
 		return response.data;
 	} catch (err) {

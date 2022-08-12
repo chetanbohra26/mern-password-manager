@@ -50,10 +50,37 @@ const checkOTP = async (otp, userName) => {
 	}
 };
 
+const checkRate = async (userName) => {
+	try {
+		const key = getRateKey(userName);
+		let data = await getData(key);
+		if (data) data = JSON.parse(data);
+		if (!data || Date.now() - data.firstReq > OTP_CONFIG.RATE_RESET_TIME) {
+			// reset limit for first request or for a request older than limit
+			data = { firstReq: Date.now(), count: 0 };
+		}
+
+		if (data.count >= OTP_CONFIG.MAX_OTP_COUNT) {
+			return false;
+		}
+
+		data.count++;
+		await setData(key, JSON.stringify(data));
+		return true;
+	} catch (err) {
+		console.error("[ERROR] Rate limit error");
+	}
+};
+
 const getOTPKey = (userName) => {
 	return "KEY#" + userName;
+};
+
+const getRateKey = (userName) => {
+	return "OTPRATE#" + userName;
 };
 
 module.exports.generateOTP = generateOTP;
 module.exports.saveOTP = saveOTP;
 module.exports.checkOTP = checkOTP;
+module.exports.checkRate = checkRate;

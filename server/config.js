@@ -26,6 +26,8 @@ const config = {
 	OTP_CONFIG: {
 		EXPIRY: 10 * 60 * 1000,
 		LENGTH: 6,
+		MAX_OTP_COUNT: 3,
+		RATE_RESET_TIME: 60 * 60 * 1000,
 	},
 };
 

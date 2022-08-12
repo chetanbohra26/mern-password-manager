@@ -2,7 +2,7 @@ const express = require("express");
 
 const { verifyUser } = require("../middleware/user");
 const { sendMail } = require("../utils/mail");
-const { generateOTP, checkOTP, saveOTP } = require("../utils/otp");
+const { generateOTP, checkOTP, saveOTP, checkRate } = require("../utils/otp");
 const { models } = require("../sequelize/models");
 const { createToken } = require("../utils/token");
 
@@ -28,6 +28,14 @@ router.get("/sendMailOTP", verifyUser, async (req, res) => {
 		return res
 			.status(500)
 			.json({ success: false, message: "Error while generating OTP" });
+	}
+
+	const isEmailAllowed = await checkRate(req.user.username);
+	if (!isEmailAllowed) {
+		return res.status(403).json({
+			success: false,
+			message: "Maximum request limit reached. Kindly retry later",
+		});
 	}
 
 	const result = await saveOTP(otp, req.user.username);

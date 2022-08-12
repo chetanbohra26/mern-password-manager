@@ -12,6 +12,8 @@ import { addUser } from "../sliceReducers/user";
 const VerifyUser = () => {
 	const userState = useSelector((state) => state.user);
 	const [otp, setOtp] = useState("");
+	const [isSendMailDisabled, setIsSendMailDisabled] = useState(false);
+	const [isConfirmMailDisabled, setIsConfirmMailDisabled] = useState(false);
 	const [isInputOtpVisible, setInputOtpVisible] = useState(false);
 	const navigate = useNavigate();
 	const userDispatch = useDispatch();
@@ -27,24 +29,31 @@ const VerifyUser = () => {
 
 	const handleSendOTP = async (e) => {
 		e && e.preventDefault();
+		setIsSendMailDisabled(true);
+
 		const data = await sendMailOTPRequest();
 		if (!data.success) {
+			setIsSendMailDisabled(false);
 			return toast.error(data.message);
 		}
 		toast.success(data.message);
 		setInputOtpVisible(true);
+		setIsSendMailDisabled(false);
 	};
 
 	const handleSubmitOTP = async (e) => {
 		e.preventDefault();
 		if (!otp || otp.length < 6) return;
+		setIsConfirmMailDisabled(true);
 		const data = await confirmOTPRequest(otp);
 		if (!data.success) {
+			setIsConfirmMailDisabled(false);
 			return toast.error(data.message);
 		}
 
 		const token = data.token;
 		if (!token) {
+			setIsConfirmMailDisabled(false);
 			return toast.error("Could not verify user");
 		}
 		initUserAndRedirect(token);
@@ -66,6 +75,7 @@ const VerifyUser = () => {
 			}
 			navigate("/dashboard", { replace: true });
 		} catch (err) {
+			setIsConfirmMailDisabled(false);
 			toast.error("Error while loading user data");
 		}
 	};
@@ -83,7 +93,12 @@ const VerifyUser = () => {
 					/>
 				</div>
 				<div className="d-flex justify-content-center">
-					<button className="btn btn-dark">Verify OTP by mail</button>
+					<button
+						className="btn btn-dark"
+						disabled={isSendMailDisabled}
+					>
+						Verify OTP by mail
+					</button>
 				</div>
 			</form>
 		);
@@ -101,7 +116,7 @@ const VerifyUser = () => {
 						/>
 						<button
 							className="btn btn-dark mt-3"
-							disabled={otp.length < 6}
+							disabled={otp.length < 6 || isConfirmMailDisabled}
 						>
 							Submit OTP
 						</button>
@@ -111,6 +126,7 @@ const VerifyUser = () => {
 					<button
 						className="btn btn-link"
 						onClick={() => handleSendOTP()}
+						disabled={isSendMailDisabled}
 					>
 						Resend OTP
 					</button>

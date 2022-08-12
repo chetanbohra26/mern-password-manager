@@ -22,25 +22,28 @@ const redisInit = async () => {
 	}
 };
 
-const setData = (key, value) => {
+const setData = async (key, value) => {
 	try {
-		return redis.set(key, value);
+		const response = await redis.set(key, value);
+		return response;
 	} catch (err) {
 		console.error("[ERROR] Redis set-key error:", err.message);
 	}
 };
 
-const getData = (key) => {
+const getData = async (key) => {
 	try {
-		return redis.get(key);
+		const response = await redis.get(key);
+		return response;
 	} catch (err) {
 		console.error("[ERROR] Redis get-key error:", err.message);
 	}
 };
 
-const removeData = (key) => {
+const removeData = async (key) => {
 	try {
-		return redis.del(key);
+		const response = await redis.del(key);
+		return response;
 	} catch (err) {
 		console.error("[ERROR] Redis delete-key error:", err.message);
 	}
